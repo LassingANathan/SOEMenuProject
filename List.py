@@ -1,6 +1,6 @@
 class List:
-    id = None
-    name = None
+    id: int = None
+    name: str = None
     listEntries = []
     
     def __init__(self, id, name):

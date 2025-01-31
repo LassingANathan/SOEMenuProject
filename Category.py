@@ -1,6 +1,6 @@
 class Category:
-    id = None
-    name = None
+    id: int = None
+    name: str = None
     foodItems = []
     
     def __init__(self, id, name):

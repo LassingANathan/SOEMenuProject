@@ -1,7 +1,9 @@
+import Category
+
 class FoodItem:
-    id = None
-    name = None
-    category = None
+    id: int = None
+    name: str = None
+    category: category = None
     
     def __init__(self, id, name, category):
         self.id = id

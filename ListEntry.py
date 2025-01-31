@@ -1,8 +1,8 @@
 class ListEntry:
-    id = None
-    quantity = None
-    unitOfMeasurement = None
-    itemName = None
+    id: int = None
+    quantity: float = None
+    unitOfMeasurement: str = None
+    itemName: str = None
     
     def __init__(self, id, quantity, unitOfMeasurement, itemName):
         self.id = id
