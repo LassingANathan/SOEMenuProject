@@ -3,7 +3,7 @@ import Category
 class FoodItem:
     id: int = None
     name: str = None
-    category: category = None
+    category: Category = None
     
     def __init__(self, id, name, category):
         self.id = id
