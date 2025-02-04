@@ -30,6 +30,19 @@ class ListCreator:
             # Turn the remainder of the list (the item name) into a single string with spaces separating them
             currentEntryName: str = " ".join(str(x) for x in currentLineAsList[2:])
             
+            # Check if a previously created list entry has the same units and name
+            isNewItem: bool = True
+            for listEntry in newList.listEntries:
+                # If entries match, then edit the original entry
+                if listEntry.itemName.lower() == currentEntryName.lower() and listEntry.unitOfMeasurement.lower() == currentEntryUnit:
+                    listEntry.quantity += currentEntryQuantity
+                    isNewItem = False
+                    break
+                
+            # Don't add the new entry to the List if the item isn't new, since we already just updated the old entry
+            if not isNewItem:
+                break
+            
             # Create the new ListEntry and add it to the List
             newListEntry: ListEntry = ListEntry(i - 1, currentEntryQuantity, currentEntryUnit, currentEntryName)
             newList.addListEntryToList(newListEntry)

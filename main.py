@@ -25,7 +25,7 @@ def main():
             categories.append(newCategory)
     
     # Create a list from the following string
-    listString = "1 package whole wheat, 2 cups milk, 6 lbs ground beef, 4 cups cheddar cheese, 1 package pizza, 2 oz broccoli"
+    listString = "1 package whole wheat, 2 cups milk, 6 lbs ground beef, 4 cups cheddar cheese, 1 package pizza, 2 oz broccoli, 2 lbs ground beef"
     listCreator = ListCreator(categories, defaultCategory)
     newList : List = listCreator.createListFromString(listString)
     
