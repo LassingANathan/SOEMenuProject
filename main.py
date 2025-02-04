@@ -1,8 +1,11 @@
 from Category import Category
 from FoodItem import FoodItem
+from ListCreator import ListCreator
+from List import List
 
 def main():
     categories = []
+    defaultCategory: Category = None # The category to sort unknown items into
     # Load categories
     with open('defaultCategories.txt', 'r') as categoryFile:
         # Iterate through file
@@ -10,6 +13,8 @@ def main():
             splitLine = line.split("_")
             # Create new category
             newCategory: Category = Category(0, splitLine[0])
+            if newCategory.name == "other":
+                defaultCategory = newCategory
             
             # Get and add all items in the current category
             for i in range(1, len(splitLine)):
@@ -18,7 +23,12 @@ def main():
                 
             # Add the created category to Categories
             categories.append(newCategory)
-                
-    print(categories)
+    
+    # Create a list from the following string
+    listString = "1 package whole wheat, 2 cups milk, 6 lbs ground beef, 4 cups cheddar cheese, 1 package pizza, 2 oz broccoli"
+    listCreator = ListCreator(categories, defaultCategory)
+    newList : List = listCreator.createListFromString(listString)
+    
+    print(newList)
         
 main()
