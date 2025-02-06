@@ -43,7 +43,7 @@ class ListCreator:
                 
             # Don't add the new entry to the List if the item isn't new, since we already just updated the old entry
             if not isNewItem:
-                break
+                continue
             
             # Create the new ListEntry and add it to the List
             newListEntry: ListEntry = ListEntry(i - 1, currentEntryQuantity, currentEntryUnit, currentEntryName)
@@ -56,7 +56,7 @@ class ListCreator:
                 # Iterate through the FoodItems in the current Category
                 for foodItem in category.foodItems:
                     if foodItem.name == newListEntry.itemName:
-                        currentItemCategory = category.name
+                        currentItemCategory = category
             
             # Add the item to the list's dict, creating a new pair or appending as necessary
             try:
