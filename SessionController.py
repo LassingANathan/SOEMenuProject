@@ -1,7 +1,4 @@
-from Category import Category
-from FoodItem import FoodItem
 from ListCreator import ListCreator
-from List import List
 from CategoryHolder import CategoryHolder
 
 class SessionController:
@@ -16,3 +13,4 @@ class SessionController:
     # Renames a category in the file and updates the ListCreator
     def renameCategory(self, categoryId: int, newName: str):
         self.categoryHolder.renameCategory(categoryId, newName)
+        self.listCreator = ListCreator(self.categoryHolder)

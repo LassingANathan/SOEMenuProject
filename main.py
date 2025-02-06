@@ -7,5 +7,9 @@ def main():
     sessionController = SessionController()
     
     print(sessionController.createList(listString))
+    
+    sessionController.renameCategory(0, "milks")
+    
+    print(sessionController.createList(listString))
         
 main()

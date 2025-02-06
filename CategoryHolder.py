@@ -4,6 +4,7 @@ from FoodItem import FoodItem
 class CategoryHolder:    
     def __init__(self, fileString: str, defaultCategoryName="other"):
         self.categoriesFileString = fileString
+        self.defaultCategoryName = defaultCategoryName
         
         # Declare space for categories
         self.categories = []
@@ -33,7 +34,29 @@ class CategoryHolder:
             
     # Renames a category with the given ID to the newName    
     def renameCategory(self, categoryId: int, newName: str):
-        pass
+        lines = None
+        
+        # Get all lines from the category file
+        with open(self.categoriesFileString, "r") as f:
+            lines = f.readlines()
+            
+        # Write back all content, except change the name of the category
+        with open(self.categoriesFileString, "w") as f:
+            for line in lines:
+                # Split the line
+                splitLine = line.split("_")
+                if splitLine[0] != str(categoryId): # Not the category to edit
+                    f.write(line.lower())
+                else: # Category to edit
+                    # Update the line's name
+                    splitLine[1] = newName
+                    # Rejoin the line into a string and write it
+                    lineToWrite = "_".join(str(i) for i in splitLine)
+                    f.write(lineToWrite.lower())
+                    
+        # Reload categories now that the file is corrected
+        self.loadCategories(self.categoriesFileString, self.defaultCategoryName)
+                    
     
     # Removes a foodItem from the given category
     def removeFoodItemFromCategory(self, categoryId: int, foodItemName: str):
