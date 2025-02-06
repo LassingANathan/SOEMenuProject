@@ -14,3 +14,8 @@ class SessionController:
     def renameCategory(self, categoryId: int, newName: str):
         self.categoryHolder.renameCategory(categoryId, newName)
         self.listCreator = ListCreator(self.categoryHolder)
+        
+    # Removes a given foodItem from the given category and updates the ListCreator
+    def removeFoodItemFromCategory(self, categoryId: int, foodItemName: str):
+        self.categoryHolder.removeFoodItemFromCategory(categoryId, foodItemName)
+        self.listCreator = ListCreator(self.categoryHolder)

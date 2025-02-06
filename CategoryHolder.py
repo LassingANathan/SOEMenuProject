@@ -26,7 +26,7 @@ class CategoryHolder:
                 # Get and add all items in the current category
                 ##TODO At some point, we'll want to add IDs to every food item
                 for i in range(2, len(splitLine)):
-                    newFoodItem = FoodItem(0, splitLine[i], newCategory)
+                    newFoodItem = FoodItem(0, splitLine[i].strip(), newCategory)
                     newCategory.addFoodItem(newFoodItem)
                     
                 # Add the created category to Categories
@@ -48,7 +48,7 @@ class CategoryHolder:
                 if splitLine[0] != str(categoryId): # Not the category to edit
                     f.write(line.lower())
                 else: # Category to edit
-                    # Update the line's name
+                    # Update the category's name
                     splitLine[1] = newName
                     # Rejoin the line into a string and write it
                     lineToWrite = "_".join(str(i) for i in splitLine)
@@ -60,7 +60,28 @@ class CategoryHolder:
     
     # Removes a foodItem from the given category
     def removeFoodItemFromCategory(self, categoryId: int, foodItemName: str):
-        pass
+        lines = None
+        
+        # Get all lines from the category file
+        with open(self.categoriesFileString, "r") as f:
+            lines = f.readlines()
+            
+        # Write back all content, except change the name of the category
+        with open(self.categoriesFileString, "w") as f:
+            for line in lines:
+                # Split the line
+                splitLine = line.split("_")
+                if splitLine[0] != str(categoryId): # Not the category to edit
+                    f.write(line.lower())
+                else: # Category to edit
+                    # Remove the food item from the split line
+                    splitLine.remove(foodItemName.lower())
+                    # Rejoin the line into a string and write it
+                    lineToWrite = "_".join(str(i) for i in splitLine)
+                    f.write(lineToWrite.lower())
+                    
+        # Reload categories now that the file is corrected
+        self.loadCategories(self.categoriesFileString, self.defaultCategoryName)
     
     # Adds a new foodItem with the given name to the given category
     def addFoodItemToCategory(self, categoryId: int, foodItemName: str):

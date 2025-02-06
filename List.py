@@ -14,11 +14,11 @@ class List:
     def __str__(self):
         returnString = ""
         # Iterate through categories
-        for categoryName in self.categoryToListEntryDict:
+        for category in self.categoryToListEntryDict:
             # Print category name in uppercase
-            returnString += categoryName.upper() + ":\n"
+            returnString += category.name.upper() + ":\n"
             # Iterate through ListEntries in current category
-            for item in self.categoryToListEntryDict[categoryName]:
+            for item in self.categoryToListEntryDict[category]:
                 # Print quantity, unit, and item name of the current item
                 returnString += str(item.quantity) + " "
                 returnString += item.unitOfMeasurement.title() + " "
