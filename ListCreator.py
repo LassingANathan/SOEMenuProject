@@ -1,14 +1,16 @@
 from List import List
 from ListEntry import ListEntry
 from Category import Category
+from CategoryHolder import CategoryHolder
 import re
 
 class ListCreator:
     #@param:Categories is a list of Category objects
-    def __init__(self, categories: list, defaultCategory: Category):
-        self.categories = categories
-        self.defaultCategory = defaultCategory
-    
+    def __init__(self, categoryHolder: CategoryHolder):
+        self.categoryHolder: CategoryHolder = categoryHolder
+        self.categories: list = self.categoryHolder.categories
+        self.defaultCategory: Category = self.categoryHolder.defaultCategory
+
     # Creates and returns a list from a string
     def createListFromString(self, string: str) -> List:
         newList: List = List(0, "New List!!!")
