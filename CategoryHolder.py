@@ -13,6 +13,9 @@ class CategoryHolder:
                 
     # Load all categories into a list
     def loadCategories(self, fileString: str, defaultCategoryName: str):
+        # Reset any current categories
+        self.categories = []
+        
         # Load categories
         with open(fileString, 'r') as categoryFile:
             # Iterate through file
@@ -55,9 +58,7 @@ class CategoryHolder:
                     f.write(lineToWrite.lower())
                     
         # Reload categories now that the file is corrected
-        self.loadCategories(self.categoriesFileString, self.defaultCategoryName)
-                    
-    
+        self.loadCategories(self.categoriesFileString, self.defaultCategoryName)         
     # Removes a foodItem from the given category
     def removeFoodItemFromCategory(self, categoryId: int, foodItemName: str):
         lines = None
@@ -66,19 +67,23 @@ class CategoryHolder:
         with open(self.categoriesFileString, "r") as f:
             lines = f.readlines()
             
-        # Write back all content, except change the name of the category
+        # Write back all content, except without the foodItem
         with open(self.categoriesFileString, "w") as f:
             for line in lines:
                 # Split the line
                 splitLine = line.split("_")
+                # Strip all words in line
+                for i in range(len(splitLine)):
+                    splitLine[i] = splitLine[i].strip()
+
                 if splitLine[0] != str(categoryId): # Not the category to edit
-                    f.write(line.lower())
+                    f.write(line.lower().strip() + "\n")
                 else: # Category to edit
                     # Remove the food item from the split line
-                    splitLine.remove(foodItemName.lower())
+                    splitLine.remove(foodItemName.lower().strip())
                     # Rejoin the line into a string and write it
                     lineToWrite = "_".join(str(i) for i in splitLine)
-                    f.write(lineToWrite.lower())
+                    f.write(lineToWrite.lower().strip() + "\n")
                     
         # Reload categories now that the file is corrected
         self.loadCategories(self.categoriesFileString, self.defaultCategoryName)
