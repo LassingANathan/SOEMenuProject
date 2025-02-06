@@ -90,4 +90,29 @@ class CategoryHolder:
     
     # Adds a new foodItem with the given name to the given category
     def addFoodItemToCategory(self, categoryId: int, foodItemName: str):
-        pass
+        lines = None
+        
+        # Get all lines from the category file
+        with open(self.categoriesFileString, "r") as f:
+            lines = f.readlines()
+            
+        # Write back all content, except without the new foodItem
+        with open(self.categoriesFileString, "w") as f:
+            for line in lines:
+                # Split the line
+                splitLine = line.split("_")
+                # Strip all words in line
+                for i in range(len(splitLine)):
+                    splitLine[i] = splitLine[i].strip()
+
+                if splitLine[0] != str(categoryId): # Not the category to edit
+                    f.write(line.lower().strip() + "\n")
+                else: # Category to edit
+                    # Remove the food item from the split line
+                    splitLine.append("_" + foodItemName.lower().strip())
+                    # Rejoin the line into a string and write it
+                    lineToWrite = "_".join(str(i) for i in splitLine)
+                    f.write(lineToWrite.lower().strip() + "\n")
+                    
+        # Reload categories now that the file is corrected
+        self.loadCategories(self.categoriesFileString, self.defaultCategoryName)
