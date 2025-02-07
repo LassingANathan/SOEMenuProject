@@ -19,3 +19,7 @@ class SessionController:
     def removeFoodItemFromCategory(self, categoryId: int, foodItemName: str):
         self.categoryHolder.removeFoodItemFromCategory(categoryId, foodItemName)
         self.listCreator = ListCreator(self.categoryHolder)
+        
+    def addFoodItemToCategory(self, categoryId: int, foodItemName: str):
+        self.categoryHolder.addFoodItemToCategory(categoryId, foodItemName)
+        self.listCreator = ListCreator(self.categoryHolder)
