@@ -89,7 +89,8 @@ def settingsMenu():
         elif userInput == "S": # Save changes
             pass
         elif userInput == "B": # Leave, don't save
-            break
+            sessionController.discardChanges()
+            return
         elif userInput.isdigit() and int(userInput) < len(categories): # Edit category 
             categoryChoice = userInput
             categories = sessionController.getCategories()
@@ -115,7 +116,8 @@ def settingsMenu():
                 elif userInput == "S": # Save changes
                     pass
                 elif userInput == "B": # Leave, don't save
-                    return
+                    sessionController.discardChanges()
+                    break
                 elif userInput.isdigit() and int(userInput) < len(currentCategoryItems): # DELETE a FoodItem
                     sessionController.removeFoodItemFromCategory(currentCategory.id, currentCategoryItems[int(userInput)].name)
                     # Reload categories after change was made

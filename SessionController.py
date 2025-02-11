@@ -3,8 +3,9 @@ from CategoryHolder import CategoryHolder
 
 class SessionController:
     def __init__(self):
-        self.defaultCategoriesFileName = "defaultCategories.txt"
-        self.categoryHolder: CategoryHolder = CategoryHolder(self.defaultCategoriesFileName)
+        self.workingCategoriesFileName = "workingCategoryFile.txt"
+        self.uneditedCategoriesFileName = "uneditedCategoryFile.txt"
+        self.categoryHolder: CategoryHolder = CategoryHolder(self.workingCategoriesFileName)
         self.listCreator = ListCreator(self.categoryHolder)
         
     # Returns a sorted list given the listString
@@ -28,7 +29,7 @@ class SessionController:
     def addNewCategory(self, newCategoryName):
         newCategoryId = 0
         # Find the highest id so far
-        with open(self.defaultCategoriesFileName, "r") as f:
+        with open(self.workingCategoriesFileName, "r") as f:
             lines = f.readlines()
             highestIdSoFar = 0
             for line in lines:
@@ -38,11 +39,45 @@ class SessionController:
         newCategoryId = highestIdSoFar + 1
             
         # Append the new category
-        with open(self.defaultCategoriesFileName, "a") as f:
+        with open(self.workingCategoriesFileName, "a") as f:
             f.write(str(newCategoryId) + "_" + newCategoryName)
             
         # Reload category holder and list creator
-        self.categoryHolder = CategoryHolder(self.defaultCategoriesFileName)
+        self.categoryHolder = CategoryHolder(self.workingCategoriesFileName)
+        self.listCreator = ListCreator(self.categoryHolder)
+        
+    # Save the changes in the working file into the unedited file
+    def saveChanges(self):
+        lines = None
+        
+        # Get all lines from the working file
+        with open(self.workingCategoriesFileName, "r") as f:
+            lines = f.readlines()
+            
+        # Write the working file to the unedited file
+        with open(self.uneditedCategoriesFileName, "w") as f:
+            for line in lines:
+                f.write(line)
+                
+        # Reload category holder and list creator
+        self.categoryHolder = CategoryHolder(self.workingCategoriesFileName)
+        self.listCreator = ListCreator(self.categoryHolder)
+        
+    # Reset the working category file to match the unedited category file
+    def discardChanges(self):
+        lines = None
+        
+        # Get all lines from the uneditedCategoryFile
+        with open(self.uneditedCategoriesFileName, "r") as f:
+            lines = f.readlines()
+            
+        # Write the unedited file to the working file
+        with open(self.workingCategoriesFileName, "w") as f:
+            for line in lines:
+                f.write(line)
+                
+        # Reload category holder and list creator
+        self.categoryHolder = CategoryHolder(self.workingCategoriesFileName)
         self.listCreator = ListCreator(self.categoryHolder)
         
     def getCategories(self):
