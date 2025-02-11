@@ -3,7 +3,8 @@ from CategoryHolder import CategoryHolder
 
 class SessionController:
     def __init__(self):
-        self.categoryHolder: CategoryHolder = CategoryHolder("defaultCategories.txt")
+        self.defaultCategoriesFileName = "defaultCategories.txt"
+        self.categoryHolder: CategoryHolder = CategoryHolder(self.defaultCategoriesFileName)
         self.listCreator = ListCreator(self.categoryHolder)
         
     # Returns a sorted list given the listString
@@ -22,6 +23,26 @@ class SessionController:
         
     def addFoodItemToCategory(self, categoryId: int, foodItemName: str):
         self.categoryHolder.addFoodItemToCategory(categoryId, foodItemName)
+        self.listCreator = ListCreator(self.categoryHolder)
+        
+    def addNewCategory(self, newCategoryName):
+        newCategoryId = 0
+        # Find the highest id so far
+        with open(self.defaultCategoriesFileName, "r") as f:
+            lines = f.readlines()
+            highestIdSoFar = 0
+            for line in lines:
+                splitLine = line.split("_")
+                highestIdSoFar = int(splitLine[0])
+                
+        newCategoryId = highestIdSoFar + 1
+            
+        # Append the new category
+        with open(self.defaultCategoriesFileName, "a") as f:
+            f.write(str(newCategoryId) + "_" + newCategoryName)
+            
+        # Reload category holder and list creator
+        self.categoryHolder = CategoryHolder(self.defaultCategoriesFileName)
         self.listCreator = ListCreator(self.categoryHolder)
         
     def getCategories(self):

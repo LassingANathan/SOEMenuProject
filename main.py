@@ -83,11 +83,13 @@ def settingsMenu():
         userInput = input()
         
         if userInput == "N": # Create new category
-            pass
+            newCategoryName = input("Enter the name of the new category: ")
+            sessionController.addNewCategory(newCategoryName.lower())
+            continue
         elif userInput == "S": # Save changes
             pass
         elif userInput == "B": # Leave, don't save
-            pass
+            break
         elif userInput.isdigit() and int(userInput) < len(categories): # Edit category 
             categoryChoice = userInput
             categories = sessionController.getCategories()
