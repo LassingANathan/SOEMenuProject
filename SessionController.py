@@ -23,3 +23,6 @@ class SessionController:
     def addFoodItemToCategory(self, categoryId: int, foodItemName: str):
         self.categoryHolder.addFoodItemToCategory(categoryId, foodItemName)
         self.listCreator = ListCreator(self.categoryHolder)
+        
+    def getCategories(self):
+        return self.categoryHolder.categories

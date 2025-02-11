@@ -1,5 +1,6 @@
 from SessionController import SessionController
 from List import List
+from Category import Category
 
 sessionController = SessionController()
 
@@ -40,7 +41,7 @@ def listCreationMenu():
             print("~~~~~~")
         else:
             enteredList = userInput
-            sortedListResponse = sortedListMenu(userInput, sessionController.createList(userInput))
+            sortedListResponse = sortedListMenu(sessionController.createList(userInput))
             if sortedListResponse == "1":
                 editingList = True
                 continue
@@ -50,7 +51,7 @@ def listCreationMenu():
 #param:enteredString=the actual string that was entered by the user
 #param:sortedList=the sorted List object created from the enteredString
 #return: None if nothing more needs to be done, and 1 if more items need to be added
-def sortedListMenu(enteredString: str, sortedList: List) -> int:
+def sortedListMenu(sortedList: List) -> int:
     print("Here's your sorted list:")
     print(sortedList)
     print("~~~~~~")
@@ -69,7 +70,55 @@ def sortedListMenu(enteredString: str, sortedList: List) -> int:
             continue
 
 def settingsMenu():
-    pass
+    # Get input for Categories
+    while True:
+        # Get the categories
+        categories = sessionController.getCategories()
+        
+        # Print all categories
+        for i in range(len(categories)):
+            print(str(i) + ": " + categories[i].name.title())
+        # Prompt
+        print("Enter the number before a category to edit that category, enter \"N\" to create a new category, enter \"S\" to save your changes, or enter \"B\" to leave WITHOUT saving your changes")
+        userInput = input()
+        
+        if userInput == "N": # Create new category
+            pass
+        elif userInput == "S": # Save changes
+            pass
+        elif userInput == "B": # Leave, don't save
+            pass
+        elif userInput.isdigit() and int(userInput) < len(categories): # Edit category 
+            categoryChoice = userInput
+            categories = sessionController.getCategories()
+            currentCategory = categories[int(categoryChoice)]   
+            currentCategoryItems: list = currentCategory.foodItems    
+            # Get input for FoodItems
+            while True:  
+                # Print all foodItems
+                for i in range(len(currentCategoryItems)):
+                    print(str(i) + ": " + currentCategoryItems[i].name.title())
+                # Prompt
+                print("Enter the number before an item to DELETE that category, enter \"N\" to create a new item, or enter \"S\" to save your changes, or enter \"B\" to leave WITHOUT saving your changes")
+                userInput = input()
+                
+                if userInput == "N": # Create new FoodItem
+                    pass
+                elif userInput == "S": # Save changes
+                    pass
+                elif userInput == "B": # Leave, don't save
+                    return
+                elif userInput.isdigit() and int(userInput) < len(currentCategoryItems): # DELETE a FoodItem
+                    sessionController.removeFoodItemFromCategory(currentCategory.id, currentCategoryItems[int(userInput)].name)
+                    # Reload categories after change was made
+                    categories = sessionController.getCategories()
+                    currentCategory = categories[int(categoryChoice)]             
+                    currentCategoryItems: list = currentCategory.foodItems
+                    continue
+                else:
+                    pass
+        else: # Not recognized input
+            continue
 
 def categorySettingMenu():
     pass
