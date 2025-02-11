@@ -89,7 +89,7 @@ def settingsMenu():
         elif userInput == "S": # Save changes
             print("Are you sure you want to save the changes? You've changed the following:")
             print(sessionController.getDifferencesSinceSave())
-            print("Are you sure you want to save these changes?")
+            print("Are you sure you want to save these changes? This CANNOT be undone.")
             confirmation = input("Enter Y for Yes, and N for No:")
             
             if confirmation == "Y":
@@ -125,7 +125,7 @@ def settingsMenu():
                 elif userInput == "S": # Save changes
                     print("You've changed the following:")
                     print(sessionController.getDifferencesSinceSave())
-                    print("Are you sure you want to save these changes?")
+                    print("Are you sure you want to save these changes? This CANNOT be undone.")
                     confirmation = input("Enter Y for Yes, and N for No:")
                     
                     if confirmation == "Y":

@@ -2,6 +2,7 @@ from List import List
 from ListEntry import ListEntry
 from Category import Category
 from CategoryHolder import CategoryHolder
+from word2number import w2n
 import re
 
 class ListCreator:
@@ -26,7 +27,10 @@ class ListCreator:
             currentLineAsList = stringEntries[i].split()
             
             # Get quantity and units for current item
-            currentEntryQuantity: float = float(currentLineAsList[0])
+            if currentLineAsList[0].isnumeric():
+                currentEntryQuantity: float = float(currentLineAsList[0])
+            else:
+                currentEntryQuantity: float = float(w2n.word_to_num(currentLineAsList[0]))
             currentEntryUnit: str = currentLineAsList[1]
             
             # Turn the remainder of the list (the item name) into a single string with spaces separating them
