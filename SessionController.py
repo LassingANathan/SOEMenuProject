@@ -119,7 +119,7 @@ class SessionController:
                         if splitUneditedLine[k] == splitWorkingLine[k]:
                             continue
                         else:
-                            if splitWorkingLine[k] == splitUneditedLine[k+1]: # Deleted an item
+                            if k+1 < len(splitUneditedLine) and splitWorkingLine[k] == splitUneditedLine[k+1]: # Deleted an item
                                 returnString += ("Deleted " + splitUneditedLine[k] + " from category " + splitUneditedLine[1] + "\n")
                                 break
                             else: # Added an item
