@@ -30,7 +30,7 @@ def listCreationMenu():
             print("~~~~~~")
             
         # Display options
-        print("Enter a list of groceries, separated by line or commas,\n or enter T for a Tutorial")
+        print("Enter a list of groceries, separated by line or commas, or enter T for a Tutorial")
         userInput = input()
         
         if userInput == "T":
@@ -41,7 +41,7 @@ def listCreationMenu():
             print("~~~~~~")
         else:
             enteredList = userInput
-            sortedListResponse = sortedListMenu(sessionController.createList(userInput))
+            sortedListResponse = sortedListMenu(enteredList, sessionController.createList(userInput))
             if sortedListResponse == "1":
                 editingList = True
                 continue
@@ -51,7 +51,7 @@ def listCreationMenu():
 #param:enteredString=the actual string that was entered by the user
 #param:sortedList=the sorted List object created from the enteredString
 #return: None if nothing more needs to be done, and 1 if more items need to be added
-def sortedListMenu(sortedList: List) -> int:
+def sortedListMenu(enteredString: str, sortedList: List) -> int:
     print("Here's your sorted list:")
     print(sortedList)
     print("~~~~~~")
@@ -64,6 +64,11 @@ def sortedListMenu(sortedList: List) -> int:
             return 1
         elif userInput == "2":
             settingsMenu()
+            sortedList = sessionController.createList(enteredString)
+            print("Here's your sorted list:")
+            print(sortedList)
+            print("~~~~~~")
+            continue
         elif userInput == "3":
             return
         else:

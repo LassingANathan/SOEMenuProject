@@ -16,7 +16,7 @@ class List:
         # Iterate through categories
         for category in self.categoryToListEntryDict:
             # Print category name in uppercase
-            returnString += category.name.upper() + ":\n"
+            returnString += category.name.upper().strip() + ":\n"
             # Iterate through ListEntries in current category
             for item in self.categoryToListEntryDict[category]:
                 # Print quantity, unit, and item name of the current item

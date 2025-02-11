@@ -23,7 +23,7 @@ class CategoryHolder:
                 splitLine = line.split("_")
                 # Create new category
                 newCategory: Category = Category(splitLine[0], splitLine[1])
-                if newCategory.name == defaultCategoryName:
+                if newCategory.name.lower().strip() == defaultCategoryName:
                     self.defaultCategory = newCategory
                 
                 # Get and add all items in the current category
