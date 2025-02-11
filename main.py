@@ -99,11 +99,17 @@ def settingsMenu():
                 for i in range(len(currentCategoryItems)):
                     print(str(i) + ": " + currentCategoryItems[i].name.title())
                 # Prompt
-                print("Enter the number before an item to DELETE that category, enter \"N\" to create a new item, or enter \"S\" to save your changes, or enter \"B\" to leave WITHOUT saving your changes")
+                print("Enter the number before an item to DELETE that item, enter \"N\" to create a new item, or enter \"S\" to save your changes, or enter \"B\" to leave WITHOUT saving your changes")
                 userInput = input()
                 
                 if userInput == "N": # Create new FoodItem
-                    pass
+                    newFoodItemName = input("Enter the name of the new item: ")
+                    sessionController.addFoodItemToCategory(currentCategory.id, newFoodItemName)
+                    # Reload categories after change was made
+                    categories = sessionController.getCategories()
+                    currentCategory = categories[int(categoryChoice)]             
+                    currentCategoryItems: list = currentCategory.foodItems
+                    continue
                 elif userInput == "S": # Save changes
                     pass
                 elif userInput == "B": # Leave, don't save
