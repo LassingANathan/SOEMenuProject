@@ -87,7 +87,16 @@ def settingsMenu():
             sessionController.addNewCategory(newCategoryName.lower())
             continue
         elif userInput == "S": # Save changes
-            pass
+            print("Are you sure you want to save the changes? You've changed the following:")
+            print(sessionController.getDifferencesSinceSave())
+            print("Are you sure you want to save these changes?")
+            confirmation = input("Enter Y for Yes, and N for No:")
+            
+            if confirmation == "Y":
+                sessionController.saveChanges()
+                return
+            else:
+                continue
         elif userInput == "B": # Leave, don't save
             sessionController.discardChanges()
             return
@@ -114,7 +123,16 @@ def settingsMenu():
                     currentCategoryItems: list = currentCategory.foodItems
                     continue
                 elif userInput == "S": # Save changes
-                    pass
+                    print("You've changed the following:")
+                    print(sessionController.getDifferencesSinceSave())
+                    print("Are you sure you want to save these changes?")
+                    confirmation = input("Enter Y for Yes, and N for No:")
+                    
+                    if confirmation == "Y":
+                        sessionController.saveChanges()
+                        return
+                    else:
+                        continue
                 elif userInput == "B": # Leave, don't save
                     sessionController.discardChanges()
                     break
