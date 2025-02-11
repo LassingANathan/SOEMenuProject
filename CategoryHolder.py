@@ -96,7 +96,7 @@ class CategoryHolder:
         with open(self.categoriesFileString, "r") as f:
             lines = f.readlines()
             
-        # Write back all content, except without the new foodItem
+        # Write back all content, except now with the new foodItem
         with open(self.categoriesFileString, "w") as f:
             for line in lines:
                 # Split the line
@@ -108,8 +108,8 @@ class CategoryHolder:
                 if splitLine[0] != str(categoryId): # Not the category to edit
                     f.write(line.lower().strip() + "\n")
                 else: # Category to edit
-                    # Remove the food item from the split line
-                    splitLine.append("_" + foodItemName.lower().strip())
+                    # Add the new item to the split line
+                    splitLine.append(foodItemName.lower().strip())
                     # Rejoin the line into a string and write it
                     lineToWrite = "_".join(str(i) for i in splitLine)
                     f.write(lineToWrite.lower().strip() + "\n")

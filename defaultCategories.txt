@@ -1,5 +1,5 @@
 0_dairy_milk_swiss cheese_yogurt_cheddar cheese
-1_meat_ground beef_chicken_turkey__steak
+1_meat_ground beef_chicken_turkey_steak
 2_bread_white_whole wheat
 3_frozen_pizza_broccoli_fries
 4_other
