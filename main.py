@@ -1,13 +1,11 @@
 from SessionController import SessionController
-from List import List
-from Category import Category
 
 sessionController = SessionController()
 
 def mainMenu(): 
     while True:
         # Display options
-        print("1: Create List\n2: Settings\n3: Quit")
+        print("1: Create List\n2: Category Settings\n3: Quit")
         userInput = input()
         
         if userInput == "1":
@@ -30,7 +28,7 @@ def listCreationMenu():
             print("~~~~~~")
             
         # Display options
-        print("Enter a list of groceries, separated by line or commas, or enter T for a Tutorial")
+        print("Enter a list of groceries, separated by line or commas, enter T for a Tutorial, or enter B to go Back")
         userInput = input()
         
         if userInput == "T":
@@ -39,6 +37,8 @@ def listCreationMenu():
             print("Specify a quantity by entering a number and unit before the product name (e.g., \"1 box eggs\", \"2/3 cup milk\")")
             print("Hit enter to submit your list and have it be sorted")
             print("~~~~~~")
+        elif userInput == "B":
+            return
         else:
             enteredList = userInput
             sortedListResponse = sortedListMenu(enteredList, sessionController.createList(userInput))
@@ -51,7 +51,7 @@ def listCreationMenu():
 #param:enteredString=the actual string that was entered by the user
 #param:sortedList=the sorted List object created from the enteredString
 #return: None if nothing more needs to be done, and 1 if more items need to be added
-def sortedListMenu(enteredString: str, sortedList: List) -> int:
+def sortedListMenu(enteredString: str, sortedList) -> int:
     print("Here's your sorted list:")
     print(sortedList)
     print("~~~~~~")
@@ -79,10 +79,11 @@ def settingsMenu():
     while True:
         # Get the categories
         categories = sessionController.getCategories()
+        print("CATEGORIES:")
         
         # Print all categories
         for i in range(len(categories)):
-            print(str(i) + ": " + categories[i].name.title())
+            print(str(i) + ": " + categories[i].name.title().strip())
         # Prompt
         print("Enter the number before a category to edit that category, enter \"N\" to create a new category, enter \"S\" to save your changes, or enter \"B\" to leave WITHOUT saving your changes")
         userInput = input()
