@@ -123,7 +123,7 @@ class SessionController:
                                 returnString += ("Deleted " + splitUneditedLine[k] + " from category " + splitUneditedLine[1] + "\n")
                                 break
                             else: # Added an item
-                                returnString += ("Added " + splitWorkingLine[k] + " to category " + splitWorkingLine[1] + "\n")
+                                returnString += ("Added " + splitWorkingLine[k+1].strip() + " to category " + splitWorkingLine[1] + "\n")
                                 break
         return returnString
                 
