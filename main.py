@@ -1,12 +1,21 @@
 from SessionController import SessionController
 import zmq
 
-sessionController = SessionController()
+context = zmq.Context()
+RECIPE_SOCKET_PORT = "tcp://localhost:5555"
+ESTIMATOR_SOCKET_PORT = "tcp://localhost:5556"
+IDEA_SOCKET_PORT = "tcp://localhost:5557"
+SCRAPER_SOCKET_PORT = "tcp://localhost:5558"
 
 # Create socket for recipe microservice
-context = zmq.Context()
 recipeSocket = context.socket(zmq.REQ)
-recipeSocket.connect("tcp://localhost:5555")
+recipeSocket.connect(RECIPE_SOCKET_PORT)
+
+# Create socket for estimator microservice
+estimatorSocket = context.socket(zmq.REQ)
+estimatorSocket.connect(ESTIMATOR_SOCKET_PORT)
+
+sessionController = SessionController()
 
 def mainMenu(): 
     while True:
@@ -60,9 +69,17 @@ def listCreationMenu():
 #param:sortedList=the sorted List object created from the enteredString
 #return: None if nothing more needs to be done, and 1 if more items need to be added
 def sortedListMenu(enteredString: str, sortedList) -> int:
+    global estimatorSocket
+    
+    # Display list
     print("Here's your sorted list:")
     print(sortedList)
     print("~~~~~~")
+    
+    # Get and display estimated cost
+    estimatorSocket.send_string(str(sortedList))
+    print(estimatorSocket.recv_string())
+    
     while True:
         # Display options
         print("1: Enter More Items\n2: Edit Categories\n3: Main Menu")
