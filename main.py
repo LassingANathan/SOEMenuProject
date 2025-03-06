@@ -170,7 +170,22 @@ def recipesMenu():
         userInput = input()
         
         if userInput == "1":
-            pass         
+            newRecipeName = input("Enter the name of the new recipe: ")
+            newRecipeIngredients = input("Enter a comma separated list of the ingredients: ")
+            
+            # Get ingredients as a list
+            newRecipeIngredients = newRecipeIngredients.split(",")
+            for i in range(len(newRecipeIngredients)):
+                newRecipeIngredients[i] = newRecipeIngredients[i].strip()
+                   
+            saveRequest = {
+                "command": "save",
+                "name": newRecipeName,
+                "ingredients": newRecipeIngredients
+            }
+            
+            recipeSocket.send_json(saveRequest)
+            print(recipeSocket.recv_json())
         elif userInput == "2":
             # Get recipe name
             requestedRecipeName = input("Enter the name of the recipe to retrieve: ")
