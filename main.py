@@ -1,11 +1,17 @@
 from SessionController import SessionController
+import zmq
 
 sessionController = SessionController()
+
+# Create socket for recipe microservice
+context = zmq.Context()
+recipeSocket = context.socket(zmq.REQ)
+recipeSocket.connect("tcp://localhost:5555")
 
 def mainMenu(): 
     while True:
         # Display options
-        print("1: Create List\n2: Category Settings\n3: Quit")
+        print("1: Create List\n2: Category Settings\n3: Recipes\n4: Quit")
         userInput = input()
         
         if userInput == "1":
@@ -13,6 +19,8 @@ def mainMenu():
         elif userInput == "2":
             settingsMenu()
         elif userInput == "3":
+            recipesMenu()
+        elif userInput == "4":
             return
         else:
             continue
@@ -154,8 +162,30 @@ def settingsMenu():
         else: # Not recognized input
             continue
 
-def categorySettingMenu():
-    pass
+def recipesMenu():
+    global recipeSocket
+    while True:
+        # Display options
+        print("1: Add Recipe\n2: Retrieve Recipe\n3: Quit")
+        userInput = input()
+        
+        if userInput == "1":
+            pass         
+        elif userInput == "2":
+            # Get recipe name
+            requestedRecipeName = input("Enter the name of the recipe to retrieve: ")
+            
+            # Request recipe
+            getRequest = {"command": "get", "name": requestedRecipeName}
+            recipeSocket.send_json(getRequest)
+            
+            # Recieve and display recipe
+            recipeResponse = recipeSocket.recv_json()
+            print(requestedRecipeName + " Recipe:\n" + recipeResponse)
+        elif userInput == "3":
+            return
+        else:
+            continue
     
         
 mainMenu()
