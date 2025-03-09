@@ -17,7 +17,7 @@ class ListCreator:
         newList: List = List(0, "New List!!!")
         
         # Get all entries from the strings into a list
-        stringEntries = re.split(', |\\n ', string)
+        stringEntries = re.split(',|\\n ', string)
         # Remove all trailing/leading whitespace
         for i in range(len(stringEntries)):
             stringEntries[i] = stringEntries[i].strip()
@@ -25,6 +25,9 @@ class ListCreator:
         # Iterate through stringEntries, creating ListEntries for each line and adding them to the List's dict
         for i in range(len(stringEntries)):
             currentLineAsList = stringEntries[i].split()
+            
+            if len(currentLineAsList) == 0:
+                continue
             
             # Get quantity and units for current item
             if currentLineAsList[0].isnumeric():

@@ -1,5 +1,6 @@
 from SessionController import SessionController
 import zmq
+import os
 
 context = zmq.Context()
 RECIPE_SOCKET_PORT = "tcp://localhost:5555"
@@ -14,6 +15,10 @@ recipeSocket.connect(RECIPE_SOCKET_PORT)
 # Create socket for estimator microservice
 estimatorSocket = context.socket(zmq.REQ)
 estimatorSocket.connect(ESTIMATOR_SOCKET_PORT)
+
+# Create socket for scraper microservice
+scraperSocket = context.socket(zmq.REQ)
+scraperSocket.connect(SCRAPER_SOCKET_PORT)
 
 sessionController = SessionController()
 
@@ -45,7 +50,7 @@ def listCreationMenu():
             print("~~~~~~")
             
         # Display options
-        print("Enter a list of groceries, separated by line or commas, enter T for a Tutorial, or enter B to go Back")
+        print("Enter a list of groceries, separated by line or commas, enter T for a Tutorial, enter R to add ingredients from an online recipe, or enter B to go Back")
         userInput = input()
         
         if userInput == "T":
@@ -54,6 +59,20 @@ def listCreationMenu():
             print("Specify a quantity by entering a number and unit before the product name (e.g., \"1 box eggs\", \"2/3 cup milk\")")
             print("Hit enter to submit your list and have it be sorted")
             print("~~~~~~")
+        elif userInput == "R":
+            # Prompt for file path
+            recipeFilePath = input("Enter the filepath of an HTML file from 'SimplyRecipes': ")
+            
+            # Request and recieve ingredients
+            scraperSocket.send_string(os.getcwd() + "\\" + recipeFilePath)
+            ingredientsAsString = scraperSocket.recv_string()
+            
+            # Add the ingredients to the enteredList and continue
+            sortedListResponse = sortedListMenu(enteredList, sessionController.createList(ingredientsAsString))
+            if sortedListResponse == "1":
+                editingList = True
+                continue
+            return
         elif userInput == "B":
             return
         else:
@@ -78,7 +97,7 @@ def sortedListMenu(enteredString: str, sortedList) -> int:
     
     # Get and display estimated cost
     estimatorSocket.send_string(str(sortedList))
-    print(estimatorSocket.recv_string())
+    print("Estimated cost: $" + estimatorSocket.recv_string())
     
     while True:
         # Display options
