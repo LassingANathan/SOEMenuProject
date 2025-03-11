@@ -20,6 +20,10 @@ estimatorSocket.connect(ESTIMATOR_SOCKET_PORT)
 scraperSocket = context.socket(zmq.REQ)
 scraperSocket.connect(SCRAPER_SOCKET_PORT)
 
+# Create socket for ideas microservice
+ideaSocket = context.socket(zmq.REQ)
+ideaSocket.connect(IDEA_SOCKET_PORT)
+
 sessionController = SessionController()
 
 def mainMenu(): 
@@ -202,7 +206,7 @@ def recipesMenu():
     global recipeSocket
     while True:
         # Display options
-        print("1: Add Recipe\n2: Retrieve Recipe\n3: Quit")
+        print("1: Add Recipe\n2: Retrieve Recipe\n3: Get Recipe Ideas\n4: Quit")
         userInput = input()
         
         if userInput == "1":
@@ -234,9 +238,22 @@ def recipesMenu():
             recipeResponse = recipeSocket.recv_json()
             print(requestedRecipeName + " Recipe:\n" + recipeResponse)
         elif userInput == "3":
+            ideasMenu()
+        elif userInput == "4":
             return
         else:
             continue
+ 
+def ideasMenu():
+    # Get food
+    listAsString = input("Enter a list of groceries, separated by commas, and we'll send you back stored recipes that you can make: ")
+        
+    # Send food to Ideas service
+    ideaSocket.send_string(listAsString)
     
+    # Recieve and display the recipes that can be created
+    ideas = ideaSocket.recv_string()
+    print(ideas)
+        
         
 mainMenu()
